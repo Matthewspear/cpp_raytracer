@@ -2,8 +2,6 @@
 #include <iostream>
 
 #include <spdlog/spdlog.h>
-
-
 #include <docopt/docopt.h>
 
 #include <iostream>
@@ -26,8 +24,8 @@ static constexpr auto USAGE =
           --drifting    Drifting mine.
 )";
 
-int main(int argc, const char **argv)
-{
+int main(int argc, const char **argv) {
+    
   std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
     { std::next(argv), std::next(argv, argc) },
     true,// show help if requested
