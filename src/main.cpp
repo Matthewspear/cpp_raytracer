@@ -4,40 +4,31 @@
 #include <spdlog/spdlog.h>
 #include <docopt/docopt.h>
 
-#include <iostream>
+int main() {
 
-static constexpr auto USAGE =
-  R"(Naval Fate.
+  const int image_width = 256;
+  const int image_height = 256;
 
-    Usage:
-          naval_fate ship new <name>...
-          naval_fate ship <name> move <x> <y> [--speed=<kn>]
-          naval_fate ship shoot <x> <y>
-          naval_fate mine (set|remove) <x> <y> [--moored | --drifting]
-          naval_fate (-h | --help)
-          naval_fate --version
- Options:
-          -h --help     Show this screen.
-          --version     Show version.
-          --speed=<kn>  Speed in knots [default: 10].
-          --moored      Moored (anchored) mine.
-          --drifting    Drifting mine.
-)";
+  const double b = 0.25;
+  const double colour_multipler = 255.999;
 
-int main(int argc, const char **argv) {
-    
-  std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
-    { std::next(argv), std::next(argv, argc) },
-    true,// show help if requested
-    "Naval Fate 2.0");// version string
+  std::cout << "P3\n"
+            << image_width << ' ' << image_height << '\n'
+            << "255\n";
 
-  for (auto const &arg : args) {
-    std::cout << arg.first << arg.second << std::endl;
+  for (int j = image_height - 1; j >= 0; --j) {
+    std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+    for (int i = 0; i < image_width; ++i) {
+
+      auto r = double(i) / (image_width - 1);
+      auto g = double(j) / (image_height - 1);
+
+      int ir = static_cast<int>(colour_multipler * r);
+      int ig = static_cast<int>(colour_multipler * g);
+      int ib = static_cast<int>(colour_multipler * b);
+
+      std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+    }
   }
-
-
-  //Use the default logger (stdout, multi-threaded, colored)
-  spdlog::info("Hello, {}!", "World");
-
-  fmt::print("Hello, from {}\n", "{fmt}");
+  std::cerr << "\nDone!\n";
 }
