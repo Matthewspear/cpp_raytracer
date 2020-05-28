@@ -2,7 +2,10 @@
 
 include_directories(include)
 
-add_executable(main main.cpp)
+file(GLOB SRCS *.cpp include/*.h)
+
+add_executable(main ${SRCS})
+
 target_link_libraries(
     main PRIVATE project_options project_warnings 
     CONAN_PKG::docopt.cpp
