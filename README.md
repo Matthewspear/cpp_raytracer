@@ -2,7 +2,7 @@
 
 Building a ray tracer using modern C++
 
-![Raytraced image](./images/image2.jpg "Raytraced image using this codebase")
+![Raytraced image](./images/image3.jpg "Raytraced image using this codebase")
 
 ## Getting Started
 

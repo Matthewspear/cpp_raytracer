@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 
@@ -50,9 +51,9 @@ public:
     case jpg:
     case png:
       for (const color &pixel : _pixel_data) {
-        data[index++] = static_cast<char>(255.999 * pixel.x());
-        data[index++] = static_cast<char>(255.999 * pixel.y());
-        data[index++] = static_cast<char>(255.999 * pixel.z());
+        data[index++] = static_cast<char>(256 * std::clamp(pixel.x(), 0.0, 0.999));
+        data[index++] = static_cast<char>(256 * std::clamp(pixel.y(), 0.0, 0.999));
+        data[index++] = static_cast<char>(256 * std::clamp(pixel.z(), 0.0, 0.999));
       }
       if (_format == png) {
         result = stbi_write_png(filename.c_str(), _width, _height, _channels, data, _width * _channels);
